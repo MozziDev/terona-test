@@ -1,9 +1,8 @@
-import {Blob} from 'buffer';
-
 export interface IBedding{
-    id:number,
-    name:string,
-    image:Blob,
+    id?:number,
+    title:string,
+    description: string
+    image:string,
     size:number,
     manufacturer: number,
     price:number
