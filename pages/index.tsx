@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { Container, Grid} from "@mui/material";
+import {Container, Grid, Rating} from "@mui/material";
 import {IBedding} from "../src/interface/iBedding";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -9,9 +9,10 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import ShareIcon from '@mui/icons-material/Share';
 import EuroIcon from '@mui/icons-material/Euro';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import Link from "next/link";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -41,8 +42,17 @@ const Home = ({beddings}: IBedding[]) => {
       return <Grid key={bedding.id} item xs={3}>
                 <Card key={bedding.id} sx={{ maxWidth: 345 }}>
                   <CardHeader
-                      title={bedding.title}
-                      subheader="September 14, 2016"
+                      title={<Link href={"/detail/"+bedding.id}>{bedding.title}</Link>}
+
+                      action={<>
+                          <IconButton aria-label="share">
+                              <ShareIcon />
+                          </IconButton>
+                          <IconButton aria-label="share">
+                            <ModeEditIcon />
+                          </IconButton>
+                      </>
+                      }
                   />
                   <CardMedia
                       component="img"
@@ -50,13 +60,8 @@ const Home = ({beddings}: IBedding[]) => {
                       image={bedding.image}
                       alt={bedding.title}
                   />
-                  <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
-                      <FavoriteIcon />
-                    </IconButton>
-                    <IconButton aria-label="share">
-                      <ShareIcon />
-                    </IconButton>
+                  <CardActions disableSpacing sx={{mt:2}}>
+                    <Rating name="size-medium" defaultValue={5} />
                     <Typography sx={{ marginLeft: 'auto', mr:1}}>
                       Price: {bedding.price}
                     </Typography>
@@ -69,7 +74,7 @@ const Home = ({beddings}: IBedding[]) => {
   return (
       <>
         <Container fixed  maxWidth="xl">
-        <Grid container spacing={2} sx={{pt: 2, width:'100%'}} alignItems={'center'} alignContent={'center'}>
+        <Grid container spacing={2} sx={{mt: 4, width:'100%'}} alignItems={'center'} alignContent={'center'}>
                 {allBeddings}
         </Grid>
         </Container>

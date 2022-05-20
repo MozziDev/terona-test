@@ -12,6 +12,17 @@ export async function getBedding():Promise<IBedding[]>
 
 }
 
+export async function getBeddingById(id:string):Promise<IBedding>
+{
+
+    return  await executeQuery({
+        query: 'SELECT * FROM bedding WHERE id like ?',
+        values: [id]
+    });
+
+
+}
+
 export async function insertBedding(bedding: IBedding): Promise<any>
 {
     let res;
