@@ -70,7 +70,7 @@ const BeddingForm = ({manufacturers, sizes, bedding}:IAddBaddingProps):JSX.Eleme
 
             let url: string;
 
-            (values.id)? url = 'https://terona-test.vercel.app/api/update-bedding' : url = 'https://terona-test.vercel.app/api/insert-bedding';;
+            (values.id)? url = '/api/update-bedding' : url = '/api/insert-bedding';;
 
             await fetch(url, {
                 method: 'PUT',

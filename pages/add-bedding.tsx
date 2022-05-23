@@ -59,10 +59,10 @@ const AddBedding = ({manufacturers, sizes, bedding = initialValues }:IAddBadding
 }
 
 export async function getStaticProps() {
-    const urlMan:string = 'https://terona-test.vercel.app/api/manufacturers';
+    const urlMan:string = process.env.DOMAIN_NAME+'/api/manufacturers';
     const manufacturers = await(await fetch(urlMan)).json();
 
-    const urlSize:string = 'https://terona-test.vercel.app/api/sizes';
+    const urlSize:string = process.env.DOMAIN_NAME+'/api/sizes';
     const sizes = await (await fetch(urlSize)).json();
 
     return {

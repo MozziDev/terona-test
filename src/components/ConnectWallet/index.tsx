@@ -49,9 +49,9 @@ const detectedProvider = (): any => {
                 walletAccount: currentAccount
             });
             let user;
-            await fetch('https://terona-test.vercel.app/api/get-user-by-wallet?wallet='+currentAccount).then(resp=>resp.json()).then(data=>user=data[0])
+            await fetch('/api/get-user-by-wallet?wallet='+currentAccount).then(resp=>resp.json()).then(data=>user=data[0])
             if (!user){
-                await fetch('https://terona-test.vercel.app/api/add-user-by-wallet', {
+                await fetch('/api/add-user-by-wallet', {
                         method: 'PUT',
                         mode: 'cors',
                         cache: 'no-cache',

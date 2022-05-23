@@ -41,7 +41,7 @@ const Home = ({beddings, wallet}: any) => {
   };
 
   const handleDelete = async (id: number | undefined) => {
-      await fetch('https://terona-test.vercel.app/api/delete-bedding', {
+      await fetch('/api/delete-bedding', {
               method: 'DELETE',
               mode: 'cors',
               cache: 'no-cache',
@@ -130,7 +130,7 @@ const Home = ({beddings, wallet}: any) => {
 }
 
 export async function getStaticProps() {
-  const urlBed:string = 'https://terona-test.vercel.app/api/get-bedding';
+  const urlBed:string = process.env.DOMAIN_NAME+'/api/get-bedding';
 
   const res = await fetch(urlBed)
   const beddings: IBedding[] = await res.json()

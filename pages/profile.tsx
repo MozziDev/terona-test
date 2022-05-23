@@ -35,7 +35,7 @@ const Profile = ({wallet, user, userReducer}: any) => {
         },
         validationSchema: validationSchema,
         onSubmit: async (values) => {
-            await fetch('https://terona-test.vercel.app/api/update-user-profile-data', {
+            await fetch('/api/update-user-profile-data', {
                     method: 'PUT',
                     mode: 'cors',
                     cache: 'no-cache',
