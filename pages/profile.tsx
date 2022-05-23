@@ -11,6 +11,7 @@ import {useFormik} from "formik";
 import {connect} from "react-redux";
 import {acSetWallet} from "../src/store/actionsCreators/acWallet";
 import {acUser} from "../src/store/actionsCreators/acUser";
+import {IUser} from "../src/interface/iUser";
 
 const validationSchema = yup.object({
     name: yup
@@ -24,7 +25,7 @@ const validationSchema = yup.object({
 });
 
 const Profile = ({wallet, user, userReducer}: any) => {
-    let userData;
+    let userData:IUser;
     const formik = useFormik({
         initialValues: {
             name:user.name,

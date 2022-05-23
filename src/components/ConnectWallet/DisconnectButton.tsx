@@ -13,7 +13,6 @@ function DisconnectButton({wallet, walletReducer}: any): JSX.Element
 
     const lengthWallet: number = wallet.walletAccount.length;
     const cutWallet: string = wallet.walletAccount.substring(0,12)+'...'+wallet.walletAccount.substring((lengthWallet-12),lengthWallet);
-    console.log(cutWallet);
 
     return <>
         <Typography

@@ -17,5 +17,6 @@ export default async function executeQuery({ query, values }: iQuery): Promise<a
         await db.end();
         return results;
     } catch (error) {
+        console.log(error)
         return { error };
     }}

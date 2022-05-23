@@ -14,7 +14,6 @@ import {AppProps} from "next/app";
 
 const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
     const [editBedding, setEditBedding] = useState(false)
-console.log('wallet', wallet)
     const handleChangeEditStatus = () => {
         (editBedding) ? setEditBedding(false) : setEditBedding(true)
     }
@@ -28,7 +27,6 @@ console.log('wallet', wallet)
                 justifyContent: 'center',
                 height: '50px'
             }}
-            onClick={()=>{console.log("1")}}
         >
             <FormGroup>
                 <FormControlLabel

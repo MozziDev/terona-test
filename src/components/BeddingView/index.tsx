@@ -19,7 +19,6 @@ const BeddingView = ({manufacturers, sizes, bedding}:IAddBaddingProps):JSX.Eleme
         }
         return ;
     })
-    console.log('size', size);
     return<>
         <Grid container columnSpacing={2} sx={{p:2}}>
             <Grid item md={6} sx={{width: '100%', minHeight: '200px'}}>

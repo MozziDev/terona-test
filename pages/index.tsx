@@ -13,7 +13,6 @@ import ShareIcon from '@mui/icons-material/Share';
 import EuroIcon from '@mui/icons-material/Euro';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Link from "next/link";
-import {deleteBedding} from "../lib/mysql/QueryBedding";
 import {connect} from "react-redux";
 
 interface ExpandMoreProps extends IconButtonProps {

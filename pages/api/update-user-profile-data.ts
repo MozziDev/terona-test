@@ -9,10 +9,10 @@ export default async function handler(
     if (req.method === "PUT"){
         const bodyRequest = JSON.parse(req.body)
         const user = await updateUserProfileData(bodyRequest);
-        if (user.error) {
+        if (user.length) {
             res.status(500).json({
                 status: true,
-                errorMessage:user.sqlMessage
+                errorMessage:"Unable to change the user"
             })
         }
         res.status(200).json(user)

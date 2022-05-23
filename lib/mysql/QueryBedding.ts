@@ -1,5 +1,6 @@
 import {IBedding} from "../../src/interface/iBedding";
 import executeQuery from "./MySqlConnect";
+import {IResultQuery} from "../../src/interface/iResultQuery";
 
 export async function getBedding():Promise<IBedding[]>
 {
@@ -23,47 +24,72 @@ export async function getBeddingById(id:string):Promise<IBedding>
 
 }
 
-export async function insertBedding(bedding: IBedding): Promise<any>
+export async function insertBedding(bedding: IBedding): Promise<IResultQuery>
 {
-    let res;
-    try {
-         await executeQuery({
+    let result: IResultQuery;
+
+    const resultQuery: any = await executeQuery({
             query: 'INSERT INTO bedding (title, description, image, size, manufacturer, price) values (?,?,?,?,?,?)',
             values: [bedding.title, bedding.description, bedding.image, bedding.size,bedding.manufacturer, bedding.price]
-        }).then(data => res=data);
-    } catch (e) {
-        res = e
+        })
+    if (resultQuery.error) {
+        result = {
+            status: false,
+            text: resultQuery.sqlMessage
+        }
     }
 
-    return res
+    result = {
+        status: true,
+        text: "This entry has been added!"}
+
+    return result;
 }
 
-export async function updateBedding(bedding: IBedding): Promise<any>
+export async function updateBedding(bedding: IBedding): Promise<IResultQuery>
 {
-    let res;
-    try {
-        await executeQuery({
+    let result: IResultQuery;
+
+    const resultQuery: any = await executeQuery({
             query: "UPDATE bedding SET  title='"+bedding.title+"', description='"+bedding.description+"', image='"+bedding.image+"', size='"+bedding.size+"', manufacturer='"+bedding.manufacturer+"', price="+bedding.price+" WHERE id like ?",
             values: [bedding.id]
-        }).then(data => res=data);
-    } catch (e) {
-        res = e
+        });
+
+    if (resultQuery.error) {
+        result = {
+            status: false,
+            text: resultQuery.sqlMessage
+        }
     }
 
-    return res
+        result = {
+            status: true,
+            text: "The record has been updated."
+        };
+
+    return result;
 }
 
-export async function deleteBedding(id:number): Promise<any>
+export async function deleteBedding(id:number): Promise<IResultQuery>
 {
-    let res;
-    try {
-        await executeQuery({
-            query: "DELETE FROM bedding WHERE id like ?",
-            values: [id]
-        }).then(data => res=data);
-    } catch (e) {
-        res = e
+    let result: IResultQuery;
+
+    const resultQuery: any = await executeQuery({
+        query: "DELETE FROM bedding WHERE id like ?",
+        values: [id]
+    })
+
+    if (resultQuery.error) {
+        result = {
+            status: false,
+            text: resultQuery.sqlMessage
+        }
     }
 
-    return res
+    result = {
+        status: true,
+        text: "The record has been deleted."
+    };
+
+    return result;
 }

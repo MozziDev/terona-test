@@ -9,10 +9,10 @@ export default async function handler(
 
     if (req.method === "PUT"){
        const bedding = await insertBedding(JSON.parse(req.body));
-        if (bedding.error) {
+        if (bedding.status) {
             res.status(500).json({
                 status: true,
-                errorMessage:bedding.sqlMessage
+                errorMessage:bedding.text
             })
         }
        res.status(200).json(bedding)

@@ -30,7 +30,6 @@ const detectedProvider = (): any => {
 
         if (provider){
             if (provider !== window.etereum) {
-                console.log('No window.ethereum provider. Do you have multiple Wallets installed?')
             }
             await provider.request({
                 method: "eth_requestAccounts"

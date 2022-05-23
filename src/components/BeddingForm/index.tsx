@@ -82,9 +82,10 @@ const BeddingForm = ({manufacturers, sizes, bedding}:IAddBaddingProps):JSX.Eleme
                 },
 
                 body: JSON.stringify(values)
-            }).then((res)=>{
-                if (res.ok) {
-                    toast.success("Successfully!", {
+            }).then(function (response) {
+                return response.json()
+            }).then(function (data) {
+                    (data.status)? toast.success(data.text, {
                             position: "top-right",
                             autoClose: 1000,
                             hideProgressBar: true,
@@ -98,25 +99,20 @@ const BeddingForm = ({manufacturers, sizes, bedding}:IAddBaddingProps):JSX.Eleme
                             }
                         }
                     )
-
-                }else {
-                    toast.error(res.statusText, {
-                        position: "top-right",
-                        autoClose: 2000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        onClose: () => {
-                            setBeddingInsert(false);
-                        }
-                    });
-                }
-            });
-
-            console.log("Formik Value",JSON.stringify(values, null, 2));
-
+                        :
+                        toast.error(data.text, {
+                            position: "top-right",
+                            autoClose: 2000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            onClose: () => {
+                                setBeddingInsert(false);
+                            }
+                        });
+                });
         },
     });
 

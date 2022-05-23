@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import {updateBedding} from "../../lib/mysql/QueryBedding";
-import {toast} from "react-toastify";
+import {IResultQuery} from "../../src/interface/iResultQuery";
 
 export default async function handler(
     req: NextApiRequest,
@@ -8,12 +8,9 @@ export default async function handler(
 ) {
 
     if (req.method === "PUT"){
-       const bedding = await updateBedding(JSON.parse(req.body));
-        if (bedding.error) {
-            res.status(500).json({
-                status: true,
-                errorMessage:bedding.sqlMessage
-            })
+       const bedding: IResultQuery = await updateBedding(JSON.parse(req.body));
+        if (!bedding.status) {
+            res.status(500).json(bedding)
         }
        res.status(200).json(bedding)
     }else{

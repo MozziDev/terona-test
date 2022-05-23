@@ -9,10 +9,10 @@ export default async function handler(
     if (req.method === "PUT"){
         const bodyRequest = JSON.parse(req.body)
         const user = await addUserByWallet(bodyRequest.wallet);
-        if (user.error) {
+        if (user.length) {
             res.status(500).json({
-                status: true,
-                errorMessage:user.sqlMessage
+                status: false,
+                text: "Failed to add a user"
             })
         }
         res.status(200).json(user)
