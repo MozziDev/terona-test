@@ -9,6 +9,7 @@ export default async function handler(
     if (req.method === "PUT"){
         const bodyRequest = JSON.parse(req.body)
         const user = await updateUserProfileData(bodyRequest);
+        console.log(user)
         if (user.length) {
             res.status(500).json({
                 status: true,

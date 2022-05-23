@@ -9,7 +9,7 @@ export default async function handler(
     if (req.method === "GET") {
         const bedding: IBedding[] = await getBedding();
         if (!bedding.length) {
-            res.status(200).json({message: "Empty Bedding's"})
+            res.status(500).json({message: "Empty Bedding's"})
         }
         res.status(200).json(bedding)
     }

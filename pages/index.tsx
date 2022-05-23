@@ -11,9 +11,11 @@ import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import ShareIcon from '@mui/icons-material/Share';
 import EuroIcon from '@mui/icons-material/Euro';
-import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Link from "next/link";
 import {connect} from "react-redux";
+import {IResultQuery} from "../src/interface/iResultQuery";
+import {toast} from "react-toastify";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -38,8 +40,41 @@ const Home = ({beddings, wallet}: any) => {
     setExpanded(!expanded);
   };
 
-  const handleDelete = (id: number | undefined) => {
-    console.log(id)
+  const handleDelete = async (id: number | undefined) => {
+      await fetch('/api/delete-bedding', {
+              method: 'DELETE',
+              mode: 'cors',
+              cache: 'no-cache',
+              credentials: 'same-origin',
+              headers: {
+                  'Content-Type': 'application/text'
+              },
+
+              body: JSON.stringify({id})
+          }
+      ).then(resp=>resp.json()).then((data:IResultQuery)=> {
+          (data.status)? toast.success(data.text, {
+                      position: "top-right",
+                      autoClose: 1000,
+                      hideProgressBar: true,
+                      closeOnClick: true,
+                      pauseOnHover: true,
+                      draggable: true,
+                      progress: undefined,
+                  }
+              )
+              :
+              toast.error(data.text, {
+                  position: "top-right",
+                  autoClose: 2000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: true,
+                  draggable: true,
+                  progress: undefined,
+              });
+          window.location.reload();
+      })
   }
   let allBeddings: JSX.Element;
   if (beddings.length) {
@@ -55,7 +90,7 @@ const Home = ({beddings, wallet}: any) => {
                           </IconButton>
                           {wallet.isConnect && (
                           <IconButton aria-label="share" onClick={()=>handleDelete(bedding.id)} >
-                            <ModeEditIcon/>
+                            <DeleteForeverIcon/>
                           </IconButton>
                               )}
                       </>

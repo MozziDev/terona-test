@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import {acSetWallet} from "../src/store/actionsCreators/acWallet";
 import {acUser} from "../src/store/actionsCreators/acUser";
 import {IUser} from "../src/interface/iUser";
+import {toast} from "react-toastify";
 
 const validationSchema = yup.object({
     name: yup
@@ -47,6 +48,16 @@ const Profile = ({wallet, user, userReducer}: any) => {
                 }
             ).then(resp=>resp.json()).then(data=>userData=data)
             userReducer(userData)
+            toast.success("Profile's data is save", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    }
+            );
         },
     });
 

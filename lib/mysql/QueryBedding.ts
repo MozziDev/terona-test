@@ -49,7 +49,6 @@ export async function insertBedding(bedding: IBedding): Promise<IResultQuery>
 export async function updateBedding(bedding: IBedding): Promise<IResultQuery>
 {
     let result: IResultQuery;
-
     const resultQuery: any = await executeQuery({
             query: "UPDATE bedding SET  title='"+bedding.title+"', description='"+bedding.description+"', image='"+bedding.image+"', size='"+bedding.size+"', manufacturer='"+bedding.manufacturer+"', price="+bedding.price+" WHERE id like ?",
             values: [bedding.id]
