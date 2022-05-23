@@ -9,7 +9,7 @@ import CardMedia from '@mui/material/CardMedia';
 import CardActions from '@mui/material/CardActions';
 import IconButton, { IconButtonProps } from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import ShareIcon from '@mui/icons-material/Share';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EuroIcon from '@mui/icons-material/Euro';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import Link from "next/link";
@@ -85,9 +85,11 @@ const Home = ({beddings, wallet}: any) => {
                       title={<Link href={"/detail/"+bedding.id}>{bedding.title}</Link>}
 
                       action={<>
+                      <Link href={"/detail/"+bedding.id}>
                           <IconButton aria-label="share">
-                              <ShareIcon />
+                              <RemoveRedEyeIcon />
                           </IconButton>
+                      </Link>
                           {wallet.isConnect && (
                           <IconButton aria-label="share" onClick={()=>handleDelete(bedding.id)} >
                             <DeleteForeverIcon/>
