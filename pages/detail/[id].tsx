@@ -53,7 +53,7 @@ const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
 }
 
 export const getStaticPaths = async () => {
-    const urlBed:string = process.env.DOMAIN_NAME+'/api/get-bedding';
+    const urlBed:string = 'https://terona-test.vercel.app/api/get-bedding';
     const res = await fetch(urlBed)
     const beddings: IBedding[] = await res.json()
 
@@ -70,7 +70,7 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({params}: any)=>{
-    const urlBed =  process.env.DOMAIN_NAME+'/api/get-bedding-by-id?id='+params.id;
+    const urlBed =  'https://terona-test.vercel.app/api/get-bedding-by-id?id='+params.id;
     const res = await fetch(urlBed)
     const beddingData = await res.json()
     return {
