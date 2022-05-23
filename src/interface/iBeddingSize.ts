@@ -1,4 +1,4 @@
 export interface IBeddingSize{
-    id:string,
+    id:number,
     title:string
 }

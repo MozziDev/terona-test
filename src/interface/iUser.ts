@@ -3,5 +3,6 @@ export interface IUser {
     wallet: string,
     name:string,
     password:string,
-    email:string
+    email:string,
+    jwt_token:string
 }

@@ -12,6 +12,8 @@ import FormGroup from '@mui/material/FormGroup';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import MenuList from "../Menu";
+import ConnectButton from "../../ConnectWallet/ConnectButton";
+import ConnectWallet from "../../ConnectWallet";
 
 export default function MenuAppBar() {
     const [auth, setAuth] = React.useState(true);
@@ -58,6 +60,7 @@ export default function MenuAppBar() {
         Bedding
     </Typography>
         <MenuList />
+        <ConnectWallet />
     {auth && (
         <div>
             <IconButton
