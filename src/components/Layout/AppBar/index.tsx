@@ -6,45 +6,16 @@ import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import Switch from '@mui/material/Switch';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormGroup from '@mui/material/FormGroup';
-import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import MenuList from "../Menu";
-import ConnectButton from "../../ConnectWallet/ConnectButton";
 import ConnectWallet from "../../ConnectWallet";
+import {acSetWallet, acUnsetWallet} from "../../../store/actionsCreators/acWallet";
+import {acUser} from "../../../store/actionsCreators/acUser";
+import {connect} from "react-redux";
 
-export default function MenuAppBar() {
-    const [auth, setAuth] = React.useState(true);
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setAuth(event.target.checked);
-    };
-
-    const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-
-    return (
+function MenuAppBar({wallet, user}: any) {
+    const auth = wallet.isConnect
+    return (<>
         <Box sx={{ flexGrow: 1 }}>
-    <FormGroup>
-        <FormControlLabel
-            control={
-        <Switch
-    checked={auth}
-    onChange={handleChange}
-    aria-label="login switch"
-        />
-}
-    label={auth ? 'Logout' : 'Login'}
-    />
-    </FormGroup>
     <AppBar position="static">
     <Toolbar>
         <IconButton
@@ -68,33 +39,30 @@ export default function MenuAppBar() {
         aria-label="account of current user"
         aria-controls="menu-appbar"
         aria-haspopup="true"
-        onClick={handleMenu}
         color="inherit"
             >
             <AccountCircle />
             </IconButton>
-            <Menu
-        id="menu-appbar"
-        anchorEl={anchorEl}
-        anchorOrigin={{
-        vertical: 'top',
-            horizontal: 'right',
-    }}
-        keepMounted
-        transformOrigin={{
-        vertical: 'top',
-            horizontal: 'right',
-    }}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-        >
-        <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
-    </Menu>
     </div>
     )}
     </Toolbar>
     </AppBar>
     </Box>
+        </>
 );
 }
+
+const walletStateToProps = function(state:any) {
+    return {
+        wallet: state.wallet,
+        user: state.user
+    }
+}
+
+const walletReducer = {
+    walletSetReducer: (value:any) => (acSetWallet(value)),
+    walletUnsetReducer: () => (acUnsetWallet()),
+    userReducer:(value:any) => (acUser(value))
+}
+
+export default connect(walletStateToProps, walletReducer)(MenuAppBar);

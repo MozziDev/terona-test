@@ -14,6 +14,7 @@ import EuroIcon from '@mui/icons-material/Euro';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import Link from "next/link";
 import {deleteBedding} from "../lib/mysql/QueryBedding";
+import {connect} from "react-redux";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -31,14 +32,14 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const Home = ({beddings}: IBedding[]) => {
+const Home = ({beddings, wallet}: any) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: number | undefined) => {
     console.log(id)
   }
   let allBeddings: JSX.Element;
@@ -53,9 +54,11 @@ const Home = ({beddings}: IBedding[]) => {
                           <IconButton aria-label="share">
                               <ShareIcon />
                           </IconButton>
+                          {wallet.isConnect && (
                           <IconButton aria-label="share" onClick={()=>handleDelete(bedding.id)} >
                             <ModeEditIcon/>
                           </IconButton>
+                              )}
                       </>
                       }
                   />
@@ -76,11 +79,14 @@ const Home = ({beddings}: IBedding[]) => {
       </Grid>
     })
   }
-  return (
+    return (
       <>
         <Container fixed  maxWidth="xl" >
         <Grid container spacing={2} sx={{mt: 4, width:'100%'}} alignItems={'center'} alignContent={'center'}>
-                {allBeddings}
+            {
+                // @ts-ignore
+                allBeddings
+            }
         </Grid>
         </Container>
       </>
@@ -100,4 +106,10 @@ export async function getStaticProps() {
   }
 }
 
-export default Home
+const walletStateToProps = function(state:any) {
+    return {
+        wallet: state.wallet
+    }
+}
+
+export default connect(walletStateToProps)(Home);

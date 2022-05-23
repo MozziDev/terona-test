@@ -6,4 +6,5 @@ export interface IAddBaddingProps {
     bedding: IBedding,
     manufacturers: IManufacturer[],
     sizes: IBeddingSize[],
+    wallet?: any
 }

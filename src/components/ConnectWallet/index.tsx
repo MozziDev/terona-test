@@ -51,6 +51,20 @@ const detectedProvider = (): any => {
             });
             let user;
             await fetch('/api/get-user-by-wallet?wallet='+currentAccount).then(resp=>resp.json()).then(data=>user=data[0])
+            if (!user){
+                await fetch('/api/add-user-by-wallet', {
+                        method: 'PUT',
+                        mode: 'cors',
+                        cache: 'no-cache',
+                        credentials: 'same-origin',
+                        headers: {
+                            'Content-Type': 'application/text'
+                        },
+
+                        body: JSON.stringify({wallet: currentAccount})
+                    }
+                    ).then(resp=>resp.json()).then(data=>user=data[0])
+            }
             userReducer(user);
         });
 

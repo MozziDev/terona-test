@@ -1,10 +1,6 @@
 import {IBedding} from "../../src/interface/iBedding";
-import {Box, Button, Link} from "@mui/material";
-import Image from "next/image";
+import {Box} from "@mui/material";
 import * as React from "react";
-import Typography from "@mui/material/Typography";
-import {IManufacturer} from "../../src/interface/iManufacturer";
-import {IBeddingSize} from "../../src/interface/iBeddingSize";
 import {IAddBaddingProps} from "../../src/interface/iBeddingProps";
 import {useState} from "react";
 import BeddingForm from "../../src/components/BeddingForm";
@@ -12,16 +8,19 @@ import BeddingView from "../../src/components/BeddingView";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
+import {connect} from "react-redux";
+import {AppProps} from "next/app";
 
 
-const Details = ({bedding, manufacturers, sizes}: IAddBaddingProps) => {
+const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
     const [editBedding, setEditBedding] = useState(false)
-
+console.log('wallet', wallet)
     const handleChangeEditStatus = () => {
         (editBedding) ? setEditBedding(false) : setEditBedding(true)
     }
 
     return <>
+        {wallet.isConnect && (
         <Box
             sx={{
                 display: 'flex',
@@ -37,13 +36,15 @@ const Details = ({bedding, manufacturers, sizes}: IAddBaddingProps) => {
                         <Switch
                             checked={editBedding}
                             onChange={handleChangeEditStatus}
-                            aria-label="login switch"
+                            aria-label="Switch View/Edit"
                         />
                     }
                     label={editBedding ? 'View Bedding' : 'Edit Bedding'}
                 />
             </FormGroup>
+
         </Box>
+        )}
         {
             (editBedding) ?
                 <BeddingForm bedding={bedding} manufacturers={manufacturers} sizes={sizes} />
@@ -74,7 +75,6 @@ export const getStaticProps = async ({params}: any)=>{
     const urlBed =  process.env.DOMAIN_NAME+'/api/get-bedding-by-id?id='+params.id;
     const res = await fetch(urlBed)
     const beddingData = await res.json()
-    console.log(beddingData)
     return {
         props: {
             bedding: beddingData.bedding,
@@ -84,4 +84,10 @@ export const getStaticProps = async ({params}: any)=>{
     }
 }
 
-export default Details;
+const walletStateToProps = function(state:any) {
+    return {
+        wallet: state.wallet
+    }
+}
+
+export default connect(walletStateToProps)(Details);
