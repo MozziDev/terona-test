@@ -15,7 +15,7 @@ import Typography from "@mui/material/Typography";
 import Loading from "../../src/components/Loading";
 
 
-const Details = ({wallet, query}) => {
+const Details = ({wallet, query}: any) => {
     const [editBedding, setEditBedding] = useState(false)
     const [bedding, setBedding] = useState()
     const [manufacturers, setManufacturers] = useState()
@@ -67,15 +67,17 @@ const Details = ({wallet, query}) => {
                     <Loading />
             ) :
             (editBedding) ?
+                // @ts-ignore
                 <BeddingForm bedding={bedding} manufacturers={manufacturers} sizes={sizes} />
                 :
+                // @ts-ignore
                 <BeddingView bedding={bedding} manufacturers={manufacturers} sizes={sizes} />
         }
     </>
 }
 
 
-export const getServerSideProps = async ({ query }) => {
+export const getServerSideProps = async ({ query }: any) => {
     return {
         props: {
             query
