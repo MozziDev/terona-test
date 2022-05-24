@@ -53,9 +53,19 @@ const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
 }
 
 export const getStaticPaths = async () => {
-    const urlBed:string = process.env.DOMAIN_NAME+'/api/get-bedding';
+    const urlBed:string = 'http://terona-test.vercel.app/api/get-bedding';
+    let beddings: IBedding[] = [];
     const res = await fetch(urlBed)
-    const beddings: IBedding[] = await res.json()
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            beddings=data
+        })
+        .catch( (error)=>{
+            console.error('Ошибка:', error);
+        });
+
 
     const paths = beddings.map((bedding: IBedding) => {
         return {
@@ -70,9 +80,23 @@ export const getStaticPaths = async () => {
 }
 
 export const getStaticProps = async ({params}: any)=>{
-    const urlBed =  process.env.DOMAIN_NAME+'/api/get-bedding-by-id?id='+params.id;
-    const res = await fetch(urlBed)
-    const beddingData = await res.json()
+    const urlBed =  'http://terona-test.vercel.app/api/get-bedding-by-id?id='+params.id;
+    let beddingData = {
+        bedding: null,
+        manufacturers: null,
+        sizes: null
+    }
+    await fetch(urlBed)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            beddingData=data
+        })
+        .catch( (error)=>{
+            console.error('Ошибка:', error);
+        });
+
     return {
         props: {
             bedding: beddingData.bedding,

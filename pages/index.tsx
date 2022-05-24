@@ -129,8 +129,8 @@ const Home = ({beddings, wallet}: any) => {
   )
 }
 
-export async function getStaticProps() {
-  const urlBed:string = process.env.DOMAIN_NAME+'/api/get-bedding';
+export async function getServerSideProps() {
+  const urlBed:string = 'https://terona-test.vercel.app/api/get-bedding';
 
   const res = await fetch(urlBed)
   const beddings: IBedding[] = await res.json()

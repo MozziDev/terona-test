@@ -26,6 +26,7 @@ const BeddingView = ({manufacturers, sizes, bedding}:IAddBaddingProps):JSX.Eleme
                     src={bedding.image}
                     width="100%"
                     height="50%"
+                    alt={bedding.title}
                     layout='responsive'
                     objectFit='contain'
                 />
