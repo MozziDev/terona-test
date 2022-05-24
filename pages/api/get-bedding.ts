@@ -12,9 +12,10 @@ export default async function handler(
             res.status(500).json({message: "Empty Bedding's"})
         }
         res.status(200).json(bedding)
+    }else{
+        res.status(405).json({message: "Only GET methods"})
     }
 
-    res.status(405).json({message: "Only GET methods"})
 
 
 }
