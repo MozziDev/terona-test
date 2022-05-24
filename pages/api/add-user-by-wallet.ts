@@ -14,8 +14,9 @@ export default async function handler(
                 status: false,
                 text: "Failed to add a user"
             })
+        }else{
+            res.status(200).json(user)
         }
-        res.status(200).json(user)
     }else{
         res.status(405).json({message: "Only PUT methods"})
     }

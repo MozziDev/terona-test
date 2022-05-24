@@ -11,8 +11,9 @@ export default async function handler(
        const bedding: IResultQuery = await updateBedding(JSON.parse(req.body));
         if (!bedding.status) {
             res.status(500).json(bedding)
+        }else{
+            res.status(200).json(bedding)
         }
-       res.status(200).json(bedding)
     }else{
         res.status(405).json({message: "Only PUT methods"})
     }

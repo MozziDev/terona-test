@@ -11,11 +11,13 @@ export default async function handler(
 
         if (!user.length) {
             res.status(200).json({message: "Empty User's"})
+        }else{
+            res.status(200).json(user)
         }
-        res.status(200).json(user)
+    }else{
+        res.status(405).json({message: "Only GET methods"})
     }
 
-    res.status(405).json({message: "Only GET methods"})
 
 
 }

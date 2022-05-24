@@ -5,6 +5,8 @@ import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import {IBedding} from "../src/interface/iBedding";
 import BeddingForm from "../src/components/BeddingForm";
+import {useEffect, useState} from "react";
+import Loading from "../src/components/Loading";
 
 const Input = styled('input')({
     display: 'none',
@@ -51,27 +53,33 @@ const initialValues = {
     description: ''
 }
 
-const AddBedding = ({manufacturers, sizes, bedding = initialValues }:IAddBaddingProps):JSX.Element => {
+const AddBedding = ({ bedding = initialValues }:IAddBaddingProps):JSX.Element => {
+
+    const [manufacturers, setManufacturers] = useState();
+    const [sizes, setSizes] = useState();
+
+    useEffect(() => {
+        fetch('/api/manufacturers')
+            .then(res => res.json())
+            .then(data => {
+                setManufacturers(data)
+            });
+
+        fetch('/api/sizes')
+            .then(res => res.json())
+            .then(data => {
+                setSizes(data)
+            })
+
+    }, [])
 
     return <>
-        <BeddingForm manufacturers={manufacturers} sizes={sizes} bedding={bedding}></BeddingForm>
+        {
+            (manufacturers && sizes)? <BeddingForm manufacturers={manufacturers} sizes={sizes} bedding={bedding}></BeddingForm>
+                : <Loading />
+        }
+
         </>
 }
-
-export async function getServerSideProps() {
-    const urlMan:string = 'https://terona-test.vercel.app/api/manufacturers';
-    const manufacturers = await(await fetch(urlMan)).json();
-
-    const urlSize:string = 'https://terona-test.vercel.app/api/sizes';
-    const sizes = await (await fetch(urlSize)).json();
-
-    return {
-        props: {
-            manufacturers,
-            sizes
-        }
-    }
-}
-
 
 export default AddBedding;

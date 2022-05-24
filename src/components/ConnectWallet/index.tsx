@@ -4,7 +4,6 @@ import React from "react";
 import Web3 from "web3";
 import {connect} from "react-redux";
 import {acSetWallet} from "../../store/actionsCreators/acWallet";
-import {IUser} from "../../interface/iUser";
 import {acUser} from "../../store/actionsCreators/acUser";
 
 declare var window: any

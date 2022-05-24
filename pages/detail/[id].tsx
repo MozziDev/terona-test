@@ -1,8 +1,8 @@
 import {IBedding} from "../../src/interface/iBedding";
-import {Box} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 import * as React from "react";
 import {IAddBaddingProps} from "../../src/interface/iBeddingProps";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import BeddingForm from "../../src/components/BeddingForm";
 import BeddingView from "../../src/components/BeddingView";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -10,13 +10,32 @@ import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
 import {connect} from "react-redux";
 import {AppProps} from "next/app";
+import {useRouter} from "next/router";
+import Typography from "@mui/material/Typography";
+import Loading from "../../src/components/Loading";
 
 
-const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
+const Details = ({wallet, query}) => {
     const [editBedding, setEditBedding] = useState(false)
+    const [bedding, setBedding] = useState()
+    const [manufacturers, setManufacturers] = useState()
+    const [sizes, setSizes] = useState()
+
+
     const handleChangeEditStatus = () => {
         (editBedding) ? setEditBedding(false) : setEditBedding(true)
     }
+
+    useEffect(() => {
+        fetch('/api/get-bedding-by-id?id='+query.id)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setBedding(data.bedding);
+                setManufacturers(data.manufacturers);
+                setSizes(data.sizes)
+            })
+    }, [])
 
     return <>
         {wallet.isConnect && (
@@ -44,6 +63,9 @@ const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
         </Box>
         )}
         {
+            (!bedding) ? (
+                    <Loading />
+            ) :
             (editBedding) ?
                 <BeddingForm bedding={bedding} manufacturers={manufacturers} sizes={sizes} />
                 :
@@ -52,48 +74,12 @@ const Details = ({bedding, manufacturers, sizes, wallet}: IAddBaddingProps) => {
     </>
 }
 
-export const getStaticPaths = async () => {
-    const urlBed:string = 'http://terona-test.vercel.app/api/get-bedding';
 
-    const res = await fetch(urlBed)
-    const beddings: IBedding[] = await res.json()
-
-    const paths = beddings.map((bedding: IBedding) => {
-        return {
-            // @ts-ignore
-            params: { id: bedding.id.toString()}
-        }
-    })
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export const getStaticProps = async ({params}: any)=>{
-    const urlBed =  'http://terona-test.vercel.app/api/get-bedding-by-id?id='+params.id;
-    let beddingData = {
-        bedding: null,
-        manufacturers: null,
-        sizes: null
-    }
-    await fetch(urlBed)
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            beddingData=data
-        })
-        .catch( (error)=>{
-            console.error('Ошибка:', error);
-        });
-
+export const getServerSideProps = async ({ query }) => {
     return {
         props: {
-            bedding: beddingData.bedding,
-            manufacturers: beddingData.manufacturers,
-            sizes: beddingData.sizes
-        },
+            query
+        }
     }
 }
 

@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import {Container, Grid, Rating} from "@mui/material";
+import useSWR from 'swr'
+import {Box, CircularProgress, Container, Grid, Rating} from "@mui/material";
 import {IBedding} from "../src/interface/iBedding";
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
@@ -16,6 +16,8 @@ import Link from "next/link";
 import {connect} from "react-redux";
 import {IResultQuery} from "../src/interface/iResultQuery";
 import {toast} from "react-toastify";
+import {useEffect} from "react";
+import Loading from "../src/components/Loading";
 
 interface ExpandMoreProps extends IconButtonProps {
   expand: boolean;
@@ -33,8 +35,18 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 
-const Home = ({beddings, wallet}: any) => {
+const Home = ({wallet}: any) => {
   const [expanded, setExpanded] = React.useState(false);
+  const [beddings, setBeddings] = React.useState([]);
+
+    useEffect(() => {
+        fetch('/api/get-bedding')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data)
+                setBeddings(data)
+            })
+    }, [])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -76,7 +88,7 @@ const Home = ({beddings, wallet}: any) => {
           window.location.reload();
       })
   }
-  let allBeddings: JSX.Element;
+  let allBeddings: any;
   if (beddings.length) {
     allBeddings = beddings.map((bedding: IBedding)=>{
       return <Grid key={bedding.id} item xs={3}>
@@ -127,19 +139,6 @@ const Home = ({beddings, wallet}: any) => {
         </Container>
       </>
   )
-}
-
-export async function getServerSideProps() {
-  const urlBed:string = 'https://terona-test.vercel.app/api/get-bedding';
-
-  const res = await fetch(urlBed)
-  const beddings: IBedding[] = await res.json()
-
-  return {
-    props: {
-      beddings,
-    },
-  }
 }
 
 const walletStateToProps = function(state:any) {

@@ -11,11 +11,11 @@ export default async function handler(
         const resultData: IResultQuery = await deleteBedding(bodyRequest.id);
         if (!resultData.status) {
             res.status(500).json(resultData)
+        }else{
+            res.status(200).json(resultData)
         }
-        res.status(200).json(resultData)
+    }else{
+        res.status(405).json({message: "Only GET methods"})
     }
-
-    res.status(405).json({message: "Only GET methods"})
-
 
 }

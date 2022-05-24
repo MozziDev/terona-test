@@ -9,14 +9,14 @@ export default async function handler(
 
     if (req.method === "PUT"){
        const bedding = await insertBedding(JSON.parse(req.body));
-       console.log("Api bedding",bedding)
         if (!bedding.status) {
             res.status(500).json({
                 status: false,
                 errorMessage:bedding.text
             })
+        }else{
+            res.status(200).json(bedding)
         }
-       res.status(200).json(bedding)
     }else{
         res.status(405).json({message: "Only PUT methods"})
     }
